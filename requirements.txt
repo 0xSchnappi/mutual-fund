@@ -1,0 +1,3 @@
+-i https://pypi.tuna.tsinghua.edu.cn/simple
+jqdatasdk
+matplotlib==3.9.2

@@ -39,3 +39,8 @@ cargo build
 ```shell
 cargo run
 ```
+
+
+python运行
+修改.config_template.yaml文件名为.config.yaml，并且填写配置信息
+运行main.py代码即可
