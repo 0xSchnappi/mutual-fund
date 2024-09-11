@@ -2,15 +2,19 @@
  * @Author: 0xSchnappi 952768182@qq.com
  * @Date: 2024-08-30 11:21:32
  * @LastEditors: 0xSchnappi 952768182@qq.com
- * @LastEditTime: 2024-09-11 10:24:51
+ * @LastEditTime: 2024-09-11 11:25:21
  * @FilePath: /mutual-fund/src/main.rs
  * @Description: 启动
  *
  * Copyright (c) 2024 by github.com/0xSchnappi, All Rights Reserved.
  */
 
+use core::panic;
+
 #[macro_use]
 extern crate rocket;
+
+mod db;
 mod fairings;
 
 pub struct AppConfig {
@@ -46,7 +50,14 @@ fn index() -> &'static str {
 async fn rocket() -> _ {
     let config = AppConfig::new();
 
+    let db = match db::connect(&config).await {
+        Ok(db) => db,
+        Err(err) => panic!("[-]数据库连接失败{}", err),
+    };
+
     rocket::build()
+        .manage(db)
+        .manage(config)
         .attach(fairings::cors::CORS)
         .mount("/", routes![index])
 }

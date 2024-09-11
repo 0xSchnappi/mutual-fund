@@ -5,3 +5,8 @@ edition = "2021"
 
 [dependencies]
 rocket = {version = "^0.5.1", features = ["json"]}
+sea-orm = {version = "^1.0.1", features = [
+    "sqlx-postgres",
+    "runtime-async-std-native-tls",
+    "macros",
+    ]}
