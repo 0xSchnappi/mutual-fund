@@ -2,7 +2,7 @@
  * @Author: 0xSchnappi 952768182@qq.com
  * @Date: 2024-08-30 11:21:32
  * @LastEditors: 0xSchnappi 952768182@qq.com
- * @LastEditTime: 2024-09-11 11:25:21
+ * @LastEditTime: 2024-09-11 14:51:01
  * @FilePath: /mutual-fund/src/main.rs
  * @Description: 启动
  *
@@ -11,11 +11,15 @@
 
 use core::panic;
 
+use migrator::Migrator;
+use sea_orm_migration::MigratorTrait;
+
 #[macro_use]
 extern crate rocket;
 
 mod db;
 mod fairings;
+mod migrator;
 
 pub struct AppConfig {
     db_host: String,
@@ -53,6 +57,11 @@ async fn rocket() -> _ {
     let db = match db::connect(&config).await {
         Ok(db) => db,
         Err(err) => panic!("[-]数据库连接失败{}", err),
+    };
+
+    match Migrator::up(&db, None).await {
+        Ok(_) => (),
+        Err(err) => panic!("[-] 数据库迁移失败{}", err),
     };
 
     rocket::build()

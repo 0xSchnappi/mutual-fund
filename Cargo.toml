@@ -10,3 +10,4 @@ sea-orm = {version = "^1.0.1", features = [
     "runtime-async-std-native-tls",
     "macros",
     ]}
+sea-orm-migration = "^1.0.1"
