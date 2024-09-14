@@ -2,14 +2,12 @@
 Author: 0xSchnappi 952768182@qq.com
 Date: 2024-09-06 16:04:53
 LastEditors: 0xSchnappi 952768182@qq.com
-LastEditTime: 2024-09-14 15:41:54
+LastEditTime: 2024-09-14 16:48:36
 FilePath: /mutual-fund/data/config.py
 Description: 获取配置文件信息
 
 Copyright (c) 2024 by github.com/0xSchnappi, All Rights Reserved. 
 '''
-import yaml
-import configparser
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
