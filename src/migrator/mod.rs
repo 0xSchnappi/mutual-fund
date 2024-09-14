@@ -2,7 +2,7 @@
  * @Author: 0xSchnappi 952768182@qq.com
  * @Date: 2024-09-11 14:18:53
  * @LastEditors: 0xSchnappi 952768182@qq.com
- * @LastEditTime: 2024-09-11 14:51:13
+ * @LastEditTime: 2024-09-14 15:26:52
  * @FilePath: /mutual-fund/src/migrator/mod.rs
  * @Description: 数据库接口
  *
@@ -11,14 +11,16 @@
 pub use sea_orm_migration::prelude::*;
 
 mod m20220101_000001_create_stock_info_table;
+mod m20240912_035759_create_day_price_table;
 
 pub struct Migrator;
 
 #[async_trait::async_trait]
 impl MigratorTrait for Migrator {
     fn migrations() -> Vec<Box<dyn MigrationTrait>> {
-        vec![Box::new(
-            m20220101_000001_create_stock_info_table::Migration,
-        )]
+        vec![
+            Box::new(m20220101_000001_create_stock_info_table::Migration),
+            Box::new(m20240912_035759_create_day_price_table::Migration),
+        ]
     }
 }

@@ -2,8 +2,8 @@
  * @Author: 0xSchnappi 952768182@qq.com
  * @Date: 2024-09-11 14:18:53
  * @LastEditors: 0xSchnappi 952768182@qq.com
- * @LastEditTime: 2024-09-11 14:44:35
- * @FilePath: /mutual-fund/src/migrator/m20220101_000001_create_stock_info_table.rs
+ * @LastEditTime: 2024-09-13 16:16:46
+ * @FilePath: /mutual-fund/src/migrator/m20220101_000001_create_StockInfo_table.rs
  * @Description: 接口
  *
  * Copyright (c) 2024 by github.com/0xSchnappi, All Rights Reserved.
@@ -28,7 +28,7 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(StockInfo::Code).string().not_null())
+                    .col(ColumnDef::new(StockInfo::Code).string().not_null().unique_key())
                     .col(ColumnDef::new(StockInfo::Name).string().not_null())
                     .col(ColumnDef::new(StockInfo::DisplayName).string().not_null())
                     .col(ColumnDef::new(StockInfo::StartDate).string().not_null())
