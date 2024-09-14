@@ -44,3 +44,13 @@ cargo run
 python运行
 修改.config_template.yaml文件名为.config.yaml，并且填写配置信息
 运行main.py代码即可
+
+## TODO
+
+- 获取指数基金成分股
+
+- 指数基金管理策略以及追踪误差产生的原因
+
+- 制定自己指数基金的管理策略
+
+- 确定追踪误差
