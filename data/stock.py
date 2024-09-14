@@ -2,7 +2,7 @@
 Author: 0xSchnappi 952768182@qq.com
 Date: 2024-09-06 16:02:28
 LastEditors: 0xSchnappi 952768182@qq.com
-LastEditTime: 2024-09-14 09:27:17
+LastEditTime: 2024-09-14 15:45:42
 FilePath: /mutual-fund/data/stock.py
 Description: 获取股票信息
 
@@ -13,7 +13,9 @@ import jqdatasdk
 from sqlalchemy import Column, String,Integer,DateTime,Float,Double
 from sqlalchemy.orm import declarative_base
 from data.config import Config
-from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # 创建对象的基类：
@@ -58,9 +60,6 @@ def update_stock_all_info():
     df = jqdatasdk.get_all_securities()
     session = Config.db_session()
     for index, row in df.iterrows():
-        # print(f'''Index: {index}, DisplayName: {row["display_name"]}, 
-        #       Name:{row["name"]}, StartDate:{row["start_date"]},
-        #       EndDate:{row["end_date"]}, Type:{row["type"]}''')
         new_stock = StockInfo(
             code = index,
             name = row["name"],
@@ -75,15 +74,23 @@ def update_stock_all_info():
         
     session.close()
     
+    
+    
 def update_stock_all_day_price():
     session = Config.db_session()
     stock_info = session.query(StockInfo).all()
-    
+
+    stock_infos = []
     for info in stock_info:
-        data = jqdatasdk.get_price(info.code, start_date="2023-05-30", end_date="2024-06-05")
+        try:
+            data = jqdatasdk.get_price(info.code, start_date="2023-05-30", end_date="2024-06-05")
+            logger.info("Get Stock info: {}".format(info.code))
+            
+        except BaseException as e:
+            logger.error("{}:{}".format(info.code , e))
+            exit(0)
             
         for index, row in data.iterrows():
-            # print(f"index:{index}, row:{row}")
             new_day_price = DayPrice(
                 code = info.code,
                 day_time =index,
@@ -95,9 +102,13 @@ def update_stock_all_day_price():
                 money = float(row["money"]),
                 
             )
-            session.add(new_day_price)
-            session.commit()
-            session.flush()
+            stock_infos.append(new_day_price)
+        session.add_all(stock_infos)
+        session.commit()
+        session.flush()
+        stock_infos.clear()
+
     session.close()
     
+        
         
