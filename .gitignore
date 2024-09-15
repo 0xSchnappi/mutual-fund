@@ -4,3 +4,5 @@
 *.pyc
 *.zip
 .env
+update-data.log
+/images

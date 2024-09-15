@@ -10,7 +10,7 @@
  */
 use sea_orm_migration::prelude::*;
 
-use super::m20220101_000001_create_stock_info_table::StockInfo;
+use super::m20220101_000001_create_StockInfo_table::StockInfo;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
